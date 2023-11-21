@@ -44,8 +44,10 @@ function findNearest(vector, centroids) {
   return nearest;
 }
 
-function kMeans(vectors, k) {
-  const centroids = initialRandomCentroids(vectors, k);
+function kMeans(vectors, k, {round = false, initialCentroids = undefined}={}) {
+
+  
+  const centroids = initialCentroids?.slice() ?? initialRandomCentroids(vectors, k);
   const assignments = new Array(vectors.length);
 
   let cluster;
@@ -95,6 +97,13 @@ function kMeans(vectors, k) {
     }
 
     if (max <= 0.5) {
+      if (round) {
+        for (const c of centroids) {
+          for (let i = 0; i < c.length; ++i) {
+            c[i] = Math.round(c[i])
+          }
+        }
+      }
       return [cluster, centroids, assignments];
     }
 

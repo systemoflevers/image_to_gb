@@ -74,8 +74,8 @@ function pixelArrayToTiles(pixels, width, height) {
         }
         hex.push(byte);
     }
-    console.log(gbTile);
-    console.log(hex.join(' '));
+    //console.log(gbTile);
+    //console.log(hex.join(' '));
     return tiles;
 }
 

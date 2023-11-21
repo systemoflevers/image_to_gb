@@ -1,5 +1,5 @@
-import { drawCanvas, drawCanvasWithWindow, drawCanvasWithOnlyWindow, drawGrid } from "../../modules/rendering.js";
-import { TileMap, TileSet } from "../../modules/tile_collections.js";
+import { drawCanvas, drawCanvasWithWindow, drawCanvasWithOnlyWindow, drawGrid } from "../modules/rendering.js";
+import { TileMap, TileSet } from "../modules/tile_collections.js";
 
 const TEMPLATE = document.createElement('template');
 TEMPLATE.innerHTML = `
@@ -52,8 +52,8 @@ export class SimpleTwoBitCanvas extends HTMLElement {
     /** @type{!HTMLCanvasElement} */
     this.grid = this.shadowRoot.getElementById('grid-canvas');
     this.gridContext = this.grid.getContext('2d');
-    this.width = this.getAttribute('width');
-    this.height = this.getAttribute('height');
+    this.width = parseInt(this.getAttribute('width') ?? '160');
+    this.height = parseInt(this.getAttribute('height') ?? '144');
 
     /** @type{!CanvasRenderingContext2D} */
     this.context = this.canvas.getContext('2d');
