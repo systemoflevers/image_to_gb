@@ -1,10 +1,10 @@
-import { SimpleTwoBitCanvas } from "../../gb_rendering/components/simpletwobitcanvas.js";
-import { TileSet, TileMap } from "../../gb_rendering/modules/tile_collections.js";
-import { pixelArrayToTiles } from "../../gb_rendering/modules/data_conversion.js";
-import { imageDataToColourIndexedTiles, imageToCanvas } from "../../image_processing/modules/image_conversion.js";
-import { ditherToColourIndex } from "../../image_processing/modules/dither.js";
-import { kGreenColours } from "../../gb_rendering/modules/colours.js"
-import { kMeans } from "../../image_processing/modules/kmeans.js";
+import { SimpleTwoBitCanvas } from "../../components/simpletwobitcanvas.js";
+import { TileSet, TileMap } from "../../modules/tile_collections.js";
+import { pixelArrayToTiles } from "../../modules/data_conversion.js";
+import { imageDataToColourIndexedTiles, imageToCanvas } from "../../modules/image_conversion.js";
+import { ditherToColourIndex } from "../../modules/dither.js";
+import { kGreenColours } from "../../modules/colours.js"
+import { kMeans } from "../../modules/kmeans.js";
 
 let canvas;
 let img = new Image();
