@@ -65,7 +65,29 @@ export class PictureRender extends HTMLElement {
       return;
     }
 
-    const [_, reducedTiles, assignments] = kMeans(this.rawTiles, tileCount, {round: true});
+    // Make an initial centroid set by deduping the tiles and taking the first
+    // `tileCount`.
+    const uniqueStringTiles = new Set();
+    for (const t of this.rawTiles) {
+      uniqueStringTiles.add(t.toString());
+    }
+    const uniqueTiles = [];
+    for (const st of uniqueStringTiles) {
+      uniqueTiles.push(Uint8Array.from(st.split(',')));
+    }
+    this.uniqueTileCount = uniqueTiles.length;
+    const initialCentroids = uniqueTiles.slice(0, this.tileCount);
+    // if there are too few unique tiles just repeat them until there are
+    // enough. This is wasteful because I don't actually need to do k-means in
+    // this case. I just don't feel like writing code to construct a tile map.
+    if (initialCentroids.length < this.tileCount) {
+      const diff = this.tileCount - initialCentroids.length
+      for (let i = 0; i < diff; ++i) {
+        initialCentroids.push(initialCentroids[i]);
+      }
+    }
+
+    const [_, reducedTiles, assignments] = kMeans(this.rawTiles, this.tileCount, {round: true, initialCentroids});
 
     const tileSet = new TileSet(tileCount);
     for (let i = 0; i < tileCount; ++i) {

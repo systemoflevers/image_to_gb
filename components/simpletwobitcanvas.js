@@ -16,6 +16,7 @@ canvas {
   width: 100%;
 }
 #grid-canvas {
+  pointer-events: none;
   position: absolute;
   z-index: 2;
   opacity: 0;

@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>picture controls</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="../../components/picturerender.js" type="module"></script>
+    <script src="../../components/imagesettings.js" type="module"></script>
+    <script src="./script.js" type="module"></script>
+    <style>
+      @media (max-aspect-ratio: 1) {
+        picture-render {
+          width: 90%;
+        }
+      }
+      @media (min-aspect-ratio: 7/4) {
+        picture-render {
+          height: 80%;
+        }
+      }
+      @media (min-aspect-ratio: 1) and (max-aspect-ratio: 7/4) {
+        picture-render {
+          width: 50%;
+        }
+      }
+      picture-render {
+        aspect-ratio: 160/144;
+        display: block;
+      }
+      image-settings {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <picture-render></picture-render>
+    <image-settings></image-settings>
+    <div>unique tile count <span id="unique-tile-count">??</span></div>
+  </body>
+</html>
