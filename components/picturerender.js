@@ -60,7 +60,7 @@ export class PictureRender extends HTMLElement {
         for (let i = 0; i < canvas.width * canvas.height; ++i) {
           for (let j = 0; j < 3; ++j) {
             const value = imageData.data[i * 4 + j];
-            imageData.data[i * 4 + j] = min(255, value * contrast);
+            imageData.data[i * 4 + j] = Math.min(255, value * contrast + 0.5 - contrast * 0.5);
           }
         }
       }
