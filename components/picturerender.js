@@ -57,6 +57,7 @@ export class PictureRender extends HTMLElement {
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
       if (!hasFilter) {
+        // polyfill for safari and other browsers that don't implement filter.
         for (let i = 0; i < canvas.width * canvas.height; ++i) {
           for (let j = 0; j < 3; ++j) {
             let value = imageData.data[i * 4 + j];
