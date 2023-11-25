@@ -49,12 +49,21 @@ export class PictureRender extends HTMLElement {
       canvas.width = this.width;
       canvas.height = this.height;
       const ctx = canvas.getContext('2d');
+      const hasFilter = !!ctx.filter;
       ctx.filter = `contrast(${this.contrast}) brightness(${this.brightness})`;
       imageToCanvas(this.image, canvas, 'crop');
-      ctx.filter = '';
+      ctx.filter = 'none';
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+      if (!hasFilter) {
+        for (let i = 0; i < canvas.width * canvas.height; ++i) {
+          for (let j = 0; j < 3; ++j) {
+            const value = imageData.data[i * 4 + j];
+            imageData.data[i * 4 + j] = min(255, value * contrast);
+          }
+        }
+      }
       this.rawTiles = imageDataToColourIndexedTiles(
         imageData,
         ditherToColourIndex,
