@@ -41,3 +41,12 @@ function updateDownload() {
   downloadRom.tileMap = pictureRender.tileMap;
   downloadRom.romSrc = kSmallFull;
 }
+
+function downloadImage() {
+  const dataUrl = pictureRender.drawing.canvas.toDataURL();
+  const a = document.createElement('a');
+  a.download = 'image.png';
+  a.href = dataUrl;
+  a.click();
+}
+document.getElementById('img-download').addEventListener('click', downloadImage);
