@@ -1,27 +1,35 @@
 import { PictureRender } from "../../components/picturerender.js"
 import { ImageSettings } from "../../components/imagesettings.js"
 import { genROM, updateGlobalChecksum } from "../../modules/gen_rom.js";
+import { DownloadRom } from "../../components/downloadrom.js";
+import { kSmallFull } from "../../modules/rom_data.js";
 
 /** @type{PictureRender} */
 const pictureRender = document.querySelector('picture-render');
 /** @type{ImageSettings} */
 const imageSettings = document.querySelector('image-settings');
+/** @type{DownloadRom} */
+const downloadRom = document.querySelector('download-rom');
 
 imageSettings.fileChange = async (file) => {
   const bitmap = await createImageBitmap(file);
   pictureRender.draw({image: bitmap});
   updateUniqueTileCount();
+  updateDownload();
 };
 imageSettings.brightnessChange = (brightness) => {
   pictureRender.draw({brightness});
   updateUniqueTileCount();
+  updateDownload();
 };
 imageSettings.contrastChange = (contrast) => {
   pictureRender.draw({contrast});
   updateUniqueTileCount();
+  updateDownload();
 };
 imageSettings.tileCountChange = (tileCount) => {
   pictureRender.draw({tileCount});
+  updateDownload();
 };
 
 function updateUniqueTileCount() {
@@ -29,14 +37,7 @@ function updateUniqueTileCount() {
   countContainer.innerText = 'hi';
   countContainer.innerText = pictureRender.uniqueTileCount;
 }
-
-function downloadROM() {
-  const a = document.createElement('a');
-  a.download = 'picture.gb';
-  const romData = genROM(pictureRender.tileMap);
-  //updateGlobalChecksum(romData)
-  const dataUrl = URL.createObjectURL(new Blob([romData], {type: "octet/stream"}));
-  a.href = dataUrl;
-  a.click();
+function updateDownload() {
+  downloadRom.tileMap = pictureRender.tileMap;
+  downloadRom.romSrc = kSmallFull;
 }
-document.getElementById('download-button').onclick = downloadROM;
