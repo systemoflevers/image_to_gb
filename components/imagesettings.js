@@ -28,7 +28,7 @@ kTemplate.innerHTML = `
   <span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span>1</span></span>
   <div id="tile-control-container">
     <span><label for="limit-tiles">limit tiles:</label><input type="checkbox" name="limit-tiles" id="limit-tiles"></span>
-    <span hidden>max tile count:<input id="tile-count" type="range" min="1" max="256" value="256"><span>256</span></span>
+    <span>max tile count:<input id="tile-count" disabled type="range" min="1" max="256" value="256"><span>256</span></span>
   <div>
 </div>
 `;
