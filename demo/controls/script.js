@@ -14,6 +14,10 @@ const downloadRom = document.querySelector('download-rom');
 imageSettings.fileChange = async (file) => {
   const bitmap = await createImageBitmap(file);
   pictureRender.draw({image: bitmap});
+  downloadRom.hidden = false;
+  document.getElementById('img-download').hidden = false;
+  pictureRender.hidden = false;
+  document.getElementById('initial-instructions').hidden = true;
   updateUniqueTileCount();
   updateDownload();
 };

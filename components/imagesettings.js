@@ -1,9 +1,22 @@
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
+<style>
+  #modify-controls {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    gap: 0.3em;
+  }
+  #modify-controls[hidden] {
+    display: none;
+  }
+</style>
 <input id="file" type="file" accept="image/*">
-<span>contrast:<input id="contrast" type="range" min="0" max="300" value="100"><span>1</span></span>
-<span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span>1</span></span>
-<span>tile count:<input id="tile-count" type="range" min="1" max="360" value="360"><span>360</span></span>
+<div id="modify-controls" hidden>
+  <span>contrast:<input id="contrast" type="range" min="0" max="300" value="100"><span>1</span></span>
+  <span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span>1</span></span>
+  <span>max tile count:<input id="tile-count" type="range" min="1" max="360" value="360"><span>360</span></span>
+</div>
 `;
 
 export class ImageSettings extends HTMLElement {
@@ -16,6 +29,8 @@ export class ImageSettings extends HTMLElement {
   connectedCallback() {
     /** @type{HTMLInputElement} */
     this.fileInput = this.shadowRoot.getElementById('file');
+    /** @type{HTMLDivElement} */
+    this.modifyContainer = this.shadowRoot.getElementById('modify-controls');
     /** @type{HTMLInputElement} */
     this.contrastInput = this.shadowRoot.getElementById('contrast');
     /** @type{HTMLInputElement} */
@@ -25,6 +40,7 @@ export class ImageSettings extends HTMLElement {
 
     this.fileInput.addEventListener('change', () => {
       this.fileChange?.(this.fileInput.files[0]);
+      this.modifyContainer.hidden = false;
     });
     this.contrastInput.addEventListener('input', () => {
       const value = Number(this.contrastInput.value) / 100;

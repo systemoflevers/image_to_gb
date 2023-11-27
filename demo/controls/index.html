@@ -26,6 +26,9 @@
         aspect-ratio: 160/144;
         display: block;
       }
+      picture-render[hidden] {
+        display: none;
+      }
       image-settings {
         display: flex;
         flex-direction: column;
@@ -33,16 +36,34 @@
       body {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-evenly;
+        align-items: center;
+        height: -webkit-fill-available;
+      }
+      #file-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #control-container {
+        display: flex;
+        flex-direction: column;
         align-items: center;
       }
     </style>
   </head>
   <body>
-    <picture-render></picture-render>
-    <image-settings></image-settings>
-    <div>unique tile count <span id="unique-tile-count">??</span></div>
-    <download-rom></download-rom>
-    <button id="img-download">download image</button>
+    <picture-render hidden></picture-render>
+    <div id="control-container">
+      <div id="file-container">
+        <div id="initial-instructions">
+          select an image
+        </div>
+        <image-settings></image-settings>
+      </div>
+      <div id="tile-count-container" hidden>unique tile count <span id="unique-tile-count">??</span></div>
+      <button id="img-download" alt="download image" hidden>download image</button>
+      <download-rom hidden></download-rom>
+    </div>
   </body>
 </html>
