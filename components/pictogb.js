@@ -1,7 +1,7 @@
 import { PictureRender } from "./picturerender.js";
 import { ImageSettings } from "./imagesettings.js";
 import { DownloadRom } from "./downloadrom.js";
-import { kSmallFull } from "../modules/rom_data.js";
+import { kSmallFull, kSmall256Max } from "../modules/rom_data.js";
 
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
@@ -48,6 +48,9 @@ kTemplate.innerHTML = `
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  button {
+    height: 3em;
   }
 </style>
 <div id="container">
@@ -103,7 +106,11 @@ export class PicToGB extends HTMLElement {
     };
     this.imageSettings.tileCountChange = (tileCount) => {
       this.pictureRender.draw({tileCount});
-      this.updateDownload();
+      if (tileCount === 360) {
+        this.updateDownload();
+      } else {
+        this.updateDownload(kSmall256Max);
+      }
     };
 
     this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.downloadImage());
@@ -111,12 +118,11 @@ export class PicToGB extends HTMLElement {
 
   updateUniqueTileCount() {
     const countContainer = this.shadowRoot.getElementById('unique-tile-count');
-    countContainer.innerText = 'hi';
     countContainer.innerText = this.pictureRender.uniqueTileCount;
   }
-  updateDownload() {
+  updateDownload(romSrc = kSmallFull) {
     this.downloadRom.tileMap = this.pictureRender.tileMap;
-    this.downloadRom.romSrc = kSmallFull;
+    this.downloadRom.romSrc = romSrc;
   }
 
   downloadImage() {

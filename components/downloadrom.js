@@ -5,6 +5,9 @@ import { TileMap } from "../modules/tile_collections.js";
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
 <style>
+  button {
+    height: 3em;
+  }
 </style>
 <button>download ROM</button>
 `;
