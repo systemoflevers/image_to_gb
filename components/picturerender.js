@@ -98,20 +98,31 @@ export class PictureRender extends HTMLElement {
         initialCentroids.push(initialCentroids[i]);
       }
     }
+    if (this.tileCount === 360) {
+      // special case when no kmeans is done
+      const tileSet = new TileSet(this.tileCount);
+      for (let i = 0; i < tileCount; ++i) {
+        tileSet.setTile(i, this.rawTiles[i]);
+      }
 
+      this.tileMap = TileMap.makeFullMap(20, 18);
+      this.tileMap.tileSet = tileSet;
+      this.drawing.draw(this.tileMap, tileSet, kGreenColours, 0, 0);
+      return;
+    }
     const [_, reducedTiles, assignments] = kMeans(this.rawTiles, this.tileCount, {round: true, initialCentroids});
 
     const tileSet = new TileSet(tileCount);
     for (let i = 0; i < tileCount; ++i) {
       tileSet.setTile(i, reducedTiles[i]);
     }
-    const tileMap = new TileMap(20, 18, tileSet);
+    /** @type{TileMap} */
+    this.tileMap = new TileMap(20, 18, tileSet);
     for (let i = 0; i < 360; ++i) {
-      tileMap.setTile(i, assignments[i]);
+      this.tileMap.setTile(i, assignments[i]);
     }
   
-    this.drawing.draw(tileMap, tileSet, kGreenColours, 0, 0);
-
+    this.drawing.draw(this.tileMap, tileSet, kGreenColours, 0, 0);
   }
 }
 customElements.define('picture-render', PictureRender);
