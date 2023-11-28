@@ -11,7 +11,7 @@
       }
       pic-to-gb {
         display: block;
-        height: 90%;
+        min-height: 90%;
         width: 90%;
         align-self: center;
       }
@@ -20,13 +20,24 @@
         align-items: center;
         justify-content: space-between;
       }
+      #me-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
     <pic-to-gb></pic-to-gb>
     <div id="footer">
       <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'A0A5RHM90');kofiwidget2.draw();</script> 
-      <a href="https://www.systemoflevers.com" target="_blank">about</a>
+      <div id="me-info">
+        <span>Made By Jesse</span>
+        <span>
+          <a href="https://systemoflevers.com">website</a>,
+          <a href="https://youtube.com/@systemoflevers">YouTube</a>
+        </span>
+      </div>
       <span class="glitch-remix"></span>
       <script src="https://remix.glitch.me/remix.min.js"></script>
     </div>
