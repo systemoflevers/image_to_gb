@@ -6,6 +6,7 @@ kTemplate.innerHTML = `
     flex-direction: column;
     /*align-items: center;*/
     gap: 0.3em;
+    align-items: flex-end;
   }
   #modify-controls[hidden] {
     display: none;
@@ -30,9 +31,23 @@ kTemplate.innerHTML = `
     display: inline-block;
     width: 3em;
   }
+  input {
+    /*-webkit-appearance: none;*/
+    accent-color: #9a2257;
+  }
+  /*input[type="range"]::-webkit-slider-thumb/*, input[type="range"]::-moz-range-thumb, input[type="range"]::-ms-thumb*/ {
+    -webkit-appearance: none;
+    background: #9a2257;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    cursor: ew-resize;
+    box-shadow: 0 0 2px 0 #555;
+    transition: background .3s ease-in-out;
+  }*/
 </style>
 <input id="file" type="file" accept="image/*">
-<div id="modify-controls" hidden>
+<div id="modify-controls">
   <span>contrast:<input id="contrast" type="range" min="0" max="300" value="100"><span>1</span></span>
   <span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span>1</span></span>
   <div id="tile-control-container">

@@ -7,6 +7,9 @@ kTemplate.innerHTML = `
 <style>
   button {
     height: 3em;
+    background: #9a2257;
+    color: white;
+    border-radius: 1.5em;
   }
 </style>
 <button>download ROM</button>

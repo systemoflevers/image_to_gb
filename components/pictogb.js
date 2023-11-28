@@ -64,10 +64,14 @@ kTemplate.innerHTML = `
   }
   button {
     height: 3em;
+    background: #9a2257;
+    color: white;
+    border-radius: 1.5em;
   }
   #button-container {
     display: flex;
     flex-direction: row;
+    gap: 1em;
   }
 </style>
 <div id="container">
@@ -81,8 +85,8 @@ kTemplate.innerHTML = `
     </div>
     <div id="tile-count-container" hidden>unique tile count <span id="unique-tile-count">??</span></div>
     <div id="button-container">
-      <button id="img-download" alt="download image" hidden>download image</button>
-      <download-rom hidden></download-rom>
+      <button id="img-download" alt="download image">download image</button>
+      <download-rom></download-rom>
     </div>
   </div>
 </div>
