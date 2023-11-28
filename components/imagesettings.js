@@ -26,6 +26,10 @@ kTemplate.innerHTML = `
     width: 2em;
     height: 2em;
   }
+  input[type=range] + span {
+    display: inline-block;
+    width: 3em;
+  }
 </style>
 <input id="file" type="file" accept="image/*">
 <div id="modify-controls" hidden>
