@@ -16,6 +16,11 @@ kTemplate.innerHTML = `
   }
   span:has(#limit-tiles) {
     align-self: center;
+    display: flex;
+    align-items: center;
+  }
+  span:has(#limit-tiles:not(:checked)) + span {
+    opacity: 0.5;
   }
   #limit-tiles {
     width: 2em;
