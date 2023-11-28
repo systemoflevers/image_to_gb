@@ -6,7 +6,7 @@ import { kSmallFull, kSmall256Max } from "../modules/rom_data.js";
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
 <style>
-  @media (max-aspect-ratio: 1) {
+  /*@media (max-aspect-ratio: 1) {
     picture-render {
       width: 90%;
     }
@@ -20,10 +20,23 @@ kTemplate.innerHTML = `
     picture-render {
       width: 50%;
     }
-  }
+  }*/
   picture-render {
-    aspect-ratio: 160/144;
+    /*aspect-ratio: 160/144;*/
     display: block;
+
+
+  --height-ratio: calc(56.65 / 100);
+  --width-ratio: calc(74.6 / 100);
+  padding: calc(6.525% / var(--width-ratio)) calc(13.625% / var(--width-ratio));
+  width: calc(47.35% / var(--width-ratio));
+  background-color: grey;
+  --small-radius-base: 2.54%;
+  --big-radius-base: 10.56%;
+  border-top-left-radius: calc(var(--small-radius-base) / var(--width-ratio)) calc(var(--small-radius-base) / var(--height-ratio));
+  border-bottom-left-radius: calc(var(--small-radius-base) / var(--width-ratio)) calc(var(--small-radius-base) / var(--height-ratio));
+  border-top-right-radius: calc(var(--small-radius-base) / var(--width-ratio)) calc(var(--small-radius-base) / var(--height-ratio));
+  border-bottom-right-radius: calc(var(--big-radius-base) / var(--width-ratio)) calc(var(--big-radius-base) / var(--height-ratio));
   }
   picture-render[hidden] {
     display: none;
@@ -52,9 +65,13 @@ kTemplate.innerHTML = `
   button {
     height: 3em;
   }
+  #button-container {
+    display: flex;
+    flex-direction: row;
+  }
 </style>
 <div id="container">
-  <picture-render hidden></picture-render>
+  <picture-render></picture-render>
   <div id="control-container">
     <div id="file-container">
       <div id="initial-instructions">
@@ -63,8 +80,10 @@ kTemplate.innerHTML = `
       <image-settings></image-settings>
     </div>
     <div id="tile-count-container" hidden>unique tile count <span id="unique-tile-count">??</span></div>
-    <button id="img-download" alt="download image" hidden>download image</button>
-    <download-rom hidden></download-rom>
+    <div id="button-container">
+      <button id="img-download" alt="download image" hidden>download image</button>
+      <download-rom hidden></download-rom>
+    </div>
   </div>
 </div>
 `;
