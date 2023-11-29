@@ -31,6 +31,12 @@ kTemplate.innerHTML = `
     display: inline-block;
     width: 3em;
   }
+  button {
+    height: 3em;
+    background: #9a2257;
+    color: white;
+    border-radius: 1.5em;
+  }
   input {
     /*-webkit-appearance: none;*/
     accent-color: #9a2257;
@@ -46,10 +52,11 @@ kTemplate.innerHTML = `
     transition: background .3s ease-in-out;
   }*/
 </style>
-<input id="file" type="file" accept="image/*">
+<button id="file-select-button">Select Picture</button>
+<input id="file" type="file" accept="image/*" hidden>
 <div id="modify-controls">
-  <span>contrast:<input id="contrast" type="range" min="0" max="300" value="100"><span>1</span></span>
-  <span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span>1</span></span>
+  <span>contrast:<input id="contrast" type="range" min="0" max="300" value="100"><span></span></span>
+  <span>brightness:<input id="brightness" type="range" min="0" max="300" value="100"><span></span></span>
   <div id="tile-control-container">
     <span><label for="limit-tiles">limit tiles:</label><input type="checkbox" name="limit-tiles" id="limit-tiles"></span>
     <span>max tile count:<input id="tile-count" disabled type="range" min="1" max="256" value="256"><span>256</span></span>
@@ -67,6 +74,8 @@ export class ImageSettings extends HTMLElement {
   connectedCallback() {
     /** @type{HTMLInputElement} */
     this.fileInput = this.shadowRoot.getElementById('file');
+    /** @type{HTMLButtonElement} */
+    this.fileButton = this.shadowRoot.getElementById('file-select-button');
     /** @type{HTMLDivElement} */
     this.modifyContainer = this.shadowRoot.getElementById('modify-controls');
     /** @type{HTMLInputElement} */
@@ -78,19 +87,21 @@ export class ImageSettings extends HTMLElement {
     /** @type{HTMLInputElement} */
     this.tileCountInput = this.shadowRoot.getElementById('tile-count');
 
+    this.fileButton.addEventListener('click', () => this.fileInput.click());
     this.fileInput.addEventListener('change', () => {
+      if (!this.fileInput.files) return;
       this.fileChange?.(this.fileInput.files[0]);
       this.modifyContainer.hidden = false;
     });
     this.contrastInput.addEventListener('input', () => {
       const value = Number(this.contrastInput.value) / 100;
       this.contrastChange?.(value);
-      this.contrastInput.nextSibling.innerHTML = value;
+      //this.contrastInput.nextSibling.innerHTML = value;
     });
     this.brightnessInput.addEventListener('input', () => {
       const value = Number(this.brightnessInput.value) / 100;
       this.brightnessChange?.(value);
-      this.brightnessInput.nextSibling.innerHTML = value;
+      //this.brightnessInput.nextSibling.innerHTML = value;
     });
     this.tileCountEnable.addEventListener('change', () => {
       if (this.tileCountEnable.checked) {

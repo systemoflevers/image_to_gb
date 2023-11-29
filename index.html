@@ -9,17 +9,34 @@
         flex-direction: column;
         gap: 1em;
         /*align-items: center;*/
-        background-color: lightgray;
+      }
+      #content {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+
+        border-style: solid;
+        /*padding-left: 3%;
+        padding-right: 3%;
+        padding-top: 6%;
+        padding-bottom: 8%;*/
+        border-radius: 3%;
+        border-bottom-right-radius: 15%;
+        background-color: #e7e7e7;
+
       }
       pic-to-gb {
         display: block;
         /*min-height: 90%;
         width: 90%;*/
-        align-self: center;
+        margin-top: 6%;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-bottom: 8%;
       }
       @media (max-aspect-ratio: 90 / 148) {
-        pic-to-gb {
-          width: 100%;
+        #content {
+          width: 95%;
         }
       }
       #footer {
@@ -46,7 +63,9 @@
     </style>
   </head>
   <body>
-    <pic-to-gb></pic-to-gb>
+    <div id="content">
+      <pic-to-gb></pic-to-gb>
+    </div>
     <div id="footer">
       <div id="me-info">
         <span>Made By Jesse</span>

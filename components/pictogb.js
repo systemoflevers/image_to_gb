@@ -22,6 +22,7 @@ kTemplate.innerHTML = `
     }
   }*/
   picture-render {
+    position: relative;
     /*aspect-ratio: 160/144;*/
     display: block;
 
@@ -38,12 +39,28 @@ kTemplate.innerHTML = `
   border-top-right-radius: calc(var(--small-radius-base) / var(--width-ratio)) calc(var(--small-radius-base) / var(--height-ratio));
   border-bottom-right-radius: calc(var(--big-radius-base) / var(--width-ratio)) calc(var(--big-radius-base) / var(--height-ratio));
   }
+  picture-render::before {
+    display: block;
+    content: " ";
+    aspect-ratio: 1;
+    width: 4%;
+    border-radius: 50%;
+    position: absolute;
+    left: 6%;
+    top: 34%;
+    background-color: lightgray;
+  }
+  picture-render.on::before {
+    background-color: red;
+    box-shadow: 0 0 10px 0px red;
+  }
   picture-render[hidden] {
     display: none;
   }
   image-settings {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   #container {
     display: flex;
@@ -58,9 +75,11 @@ kTemplate.innerHTML = `
     align-items: center;
   }
   #control-container {
+    margin-top: 3%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 5px;
   }
   button {
     height: 3em;
@@ -78,7 +97,7 @@ kTemplate.innerHTML = `
   <picture-render></picture-render>
   <div id="control-container">
     <div id="file-container">
-      <div id="initial-instructions">
+      <div id="initial-instructions" hidden>
         select an image
       </div>
       <image-settings></image-settings>
@@ -108,6 +127,7 @@ export class PicToGB extends HTMLElement {
     this.downloadRom = this.shadowRoot.querySelector('download-rom');
     
     this.imageSettings.fileChange = async (file) => {
+      this.pictureRender.classList.add('on');
       const bitmap = await createImageBitmap(file);
       this.pictureRender.draw({image: bitmap});
       this.downloadRom.hidden = false;
