@@ -59,7 +59,7 @@ kTemplate.innerHTML = `
   }
   image-settings {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
   #container {
@@ -83,9 +83,13 @@ kTemplate.innerHTML = `
   }
   button {
     height: 3em;
-    background: #9a2257;
-    color: white;
+    background: gray;/*#9a2257;*/
+    color: navy;
+    font-weight: bold;
     border-radius: 1.5em;
+    rotate: -26deg;
+    margin-top: 2em;
+    width: 10em;
   }
   #button-container {
     display: flex;
