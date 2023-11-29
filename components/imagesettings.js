@@ -34,8 +34,9 @@ kTemplate.innerHTML = `
   button {
     height: 3em;
     background: black;/*#9a2257;*/
-    color: white;
+    color: #e7e7e7;
     border-radius: 0.5em;
+    font-weight: bold;
   }
   input {
     /*-webkit-appearance: none;*/

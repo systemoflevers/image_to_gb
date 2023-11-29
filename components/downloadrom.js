@@ -38,6 +38,12 @@ export class DownloadRom extends HTMLElement {
     /** @type{TileMap} */
     this.tileMap = undefined;
   }
+  disable() {
+    this.button.disabled = true;
+  }
+  enable() {
+    this.button.disabled = false;
+  }
 
   download() {
     if (!this.romSrc || !this.tileMap) {

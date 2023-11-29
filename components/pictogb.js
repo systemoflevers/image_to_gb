@@ -130,6 +130,7 @@ export class PicToGB extends HTMLElement {
     /** @type{DownloadRom} */
     this.downloadRom = this.shadowRoot.querySelector('download-rom');
     
+    //customElements.whenDefined('download-rom').then(() => this.downloadRom.disable());
     this.imageSettings.fileChange = async (file) => {
       this.pictureRender.classList.add('on');
       const bitmap = await createImageBitmap(file);
