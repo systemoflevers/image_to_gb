@@ -1,62 +1,70 @@
 <html>
-  <head>
-    <title>pic to gb</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="components/pictogb.js" type="module"></script>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-        /*align-items: center;*/
-      }
-      #content {
-        align-self: center;
-        display: flex;
-        flex-direction: column;
 
-        border-style: solid;
-        /*padding-left: 3%;
+<head>
+  <title>pic to gb</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="components/pictogb.js" type="module"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      /*align-items: center;*/
+    }
+
+    #content {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+
+      border-style: solid;
+      /*padding-left: 3%;
         padding-right: 3%;
         padding-top: 6%;
         padding-bottom: 8%;*/
-        border-radius: 3%;
-        border-bottom-right-radius: 15%;
-        background-color: #e7e7e7;
+      border-radius: 3%;
+      border-bottom-right-radius: 15%;
+      background-color: #e7e7e7;
 
-      }
-      pic-to-gb {
-        display: block;
-        /*min-height: 90%;
+    }
+
+    pic-to-gb {
+      display: block;
+      /*min-height: 90%;
         width: 90%;*/
-        margin-top: 6%;
-        margin-left: 3%;
-        margin-right: 3%;
-        margin-bottom: 8%;
+      margin-top: 6%;
+      margin-left: 3%;
+      margin-right: 3%;
+      margin-bottom: 8%;
+    }
+
+    @media (min-aspect-ratio: 90 / 148) {
+      #content {
+        min-width: 27em;
       }
-      @media (min-aspect-ratio: 90 / 148) {
-        #content {
-          min-width: 27em;
-        }
+    }
+
+    @media (max-aspect-ratio: 90 / 148) {
+      #content {
+        width: 100%;
       }
-      @media (max-aspect-ratio: 90 / 148) {
-        #content {
-          width: 100%;
-        }
-      }
-      #footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        gap: 3px;
-      }
-      #me-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      /*@media (max-width: 480px) {
+    }
+
+    #footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3px;
+    }
+
+    #me-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /*@media (max-width: 480px) {
         pic-to-gb {
           min-height: 85%;
         }
@@ -65,23 +73,25 @@
         }
         
       }*/
-    </style>
-  </head>
-  <body>
-    <div id="content">
-      <pic-to-gb></pic-to-gb>
+  </style>
+</head>
+<body>
+  <div id="content">
+    <pic-to-gb></pic-to-gb>
+  </div>
+  <div id="footer">
+    <div id="me-info">
+      <span>Made By Jesse</span>
+      <span>
+        <a href="https://systemoflevers.com">website</a>,
+        <a href="https://youtube.com/@systemoflevers">YouTube</a>
+      </span>
     </div>
-    <div id="footer">
-      <div id="me-info">
-        <span>Made By Jesse</span>
-        <span>
-          <a href="https://systemoflevers.com">website</a>,
-          <a href="https://youtube.com/@systemoflevers">YouTube</a>
-        </span>
-      </div>
-      <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'A0A5RHM90');kofiwidget2.draw();</script> 
-      <span class="glitch-remix"></span>
-      <script src="https://remix.glitch.me/remix.min.js"></script>
-    </div>
-  </body>
+    <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+    <script
+      type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#29abe0', 'A0A5RHM90'); kofiwidget2.draw();</script>
+    <span>source available on <a href="https://github.com/systemoflevers/image_to_gb">GitHub</a></span>
+  </div>
+</body>
+
 </html>
