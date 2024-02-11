@@ -155,11 +155,7 @@ export class PicToGB extends HTMLElement {
     };
     this.imageSettings.tileCountChange = (tileCount) => {
       this.pictureRender.draw({tileCount});
-      if (tileCount === 360) {
-        this.updateDownload();
-      } else {
-        this.updateDownload(kSmall256Max);
-      }
+      this.updateDownload();
     };
 
     this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.downloadImage());
@@ -178,8 +174,8 @@ export class PicToGB extends HTMLElement {
     const countContainer = this.shadowRoot.getElementById('unique-tile-count');
     countContainer.innerText = this.pictureRender.uniqueTileCount;
   }
-  updateDownload(romSrc = kSmallFull) {
-    romSrc = this.pickRomSource();
+  updateDownload() {
+    const romSrc = this.pickRomSource();
     this.downloadRom.tileMap = this.pictureRender.tileMap;
     this.downloadRom.romSrc = romSrc;
   }
