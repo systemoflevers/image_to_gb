@@ -2,6 +2,9 @@ import { PictureRender } from "./picturerender.js";
 import { ImageSettings } from "./imagesettings.js";
 import { DownloadRom } from "./downloadrom.js";
 import { kSmallFull, kSmall256Max } from "../modules/rom_data.js";
+import { drawCanvas } from "../modules/rendering.js";
+import { TileMap } from "../modules/tile_collections.js";
+import { kGreenColours } from "../modules/colours.js";
 
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
@@ -68,6 +71,7 @@ kTemplate.innerHTML = `
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
+    position: relative;
   }
   #file-container {
     display: flex;
@@ -96,6 +100,32 @@ kTemplate.innerHTML = `
     flex-direction: row;
     gap: 1em;
   }
+  #download-overlay {
+    position: absolute;
+    background: #e7e7e7;
+    translate: 0 -300%;
+    transition: translate 0.5s;
+    height: 30%;
+    box-shadow: 5px 5px 15px 5px #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  #download-overlay.show {
+    translate: 0 0;
+  }
+  #other-download-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #overlay-close {
+    padding: 8px;
+    font-family: monospace;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: default;
+  }
 </style>
 <div id="container">
   <picture-render></picture-render>
@@ -109,7 +139,13 @@ kTemplate.innerHTML = `
     <div id="tile-count-container" hidden>unique tile count <span id="unique-tile-count">??</span></div>
     <div id="button-container">
       <button id="img-download" alt="download image">download image</button>
-      <!--button id="tiles-download" alt="download tile sheet">download tile sheet</button-->
+      <button id="other-download" alt="other downloads">other downloads</button>
+    </div>
+  </div>
+  <div id="download-overlay">
+    <div id="overlay-close">X</div>
+    <div id="other-download-buttons">
+      <button id="tiles-download" alt="download tile sheet">download tile sheet</button>
       <download-rom></download-rom>
     </div>
   </div>
@@ -159,7 +195,9 @@ export class PicToGB extends HTMLElement {
     };
 
     this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.downloadImage());
-    //this.shadowRoot.getElementById('tiles-download').addEventListener('click', () => this.downloadTileSheet());
+    this.shadowRoot.getElementById('tiles-download').addEventListener('click', () => this.downloadTileSheet());
+    this.shadowRoot.getElementById('other-download').addEventListener('click', () => this.toggleOtherDownload());
+    this.shadowRoot.getElementById('overlay-close').addEventListener('click', () => this.toggleOtherDownload());
   }
 
   pickRomSource() {
@@ -189,7 +227,27 @@ export class PicToGB extends HTMLElement {
   }
 
   downloadTileSheet() {
-    const tileCount = this.imageSettings.tileCount;
+    const tileCount = this.pictureRender.tileCount;
+    const heightInTiles = Math.ceil(tileCount / 16);
+    const tileMap = new TileMap(16, heightInTiles, this.pictureRender.tileMap.tileSet);
+    for (let i = 0; i < tileCount; ++i) {
+      tileMap.tileMap[i] = i;
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = 16 * 8;
+    canvas.height = heightInTiles * 8;
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    drawCanvas(ctx, imageData, tileMap, tileMap.tileSet, kGreenColours, 0, 0);
+    const dataUrl = canvas.toDataURL();
+    const a = document.createElement('a');
+    a.download = 'tiles.png';
+    a.href = dataUrl;
+    a.click();
+  }
+  
+  toggleOtherDownload() {
+    this.shadowRoot.getElementById('download-overlay').classList.toggle('show');
   }
 }
 customElements.define('pic-to-gb', PicToGB);
