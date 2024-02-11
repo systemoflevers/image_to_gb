@@ -109,6 +109,7 @@ kTemplate.innerHTML = `
     <div id="tile-count-container" hidden>unique tile count <span id="unique-tile-count">??</span></div>
     <div id="button-container">
       <button id="img-download" alt="download image">download image</button>
+      <!--button id="tiles-download" alt="download tile sheet">download tile sheet</button-->
       <download-rom></download-rom>
     </div>
   </div>
@@ -162,6 +163,15 @@ export class PicToGB extends HTMLElement {
     };
 
     this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.downloadImage());
+    //this.shadowRoot.getElementById('tiles-download').addEventListener('click', () => this.downloadTileSheet());
+  }
+
+  pickRomSource() {
+    if (this.pictureRender.tileCount === 360) {
+      return kSmallFull;
+    } else {
+      return kSmall256Max;
+    }
   }
 
   updateUniqueTileCount() {
@@ -169,6 +179,7 @@ export class PicToGB extends HTMLElement {
     countContainer.innerText = this.pictureRender.uniqueTileCount;
   }
   updateDownload(romSrc = kSmallFull) {
+    romSrc = this.pickRomSource();
     this.downloadRom.tileMap = this.pictureRender.tileMap;
     this.downloadRom.romSrc = romSrc;
   }
@@ -179,6 +190,10 @@ export class PicToGB extends HTMLElement {
     a.download = 'image.png';
     a.href = dataUrl;
     a.click();
+  }
+
+  downloadTileSheet() {
+    const tileCount = this.imageSettings.tileCount;
   }
 }
 customElements.define('pic-to-gb', PicToGB);
