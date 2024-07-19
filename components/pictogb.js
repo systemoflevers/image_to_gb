@@ -105,11 +105,11 @@ kTemplate.innerHTML = `
     background: #e7e7e7;
     translate: 0 -300%;
     transition: translate 0.5s;
-    height: 30%;
     box-shadow: 5px 5px 15px 5px #000000;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    padding-bottom: 2em;
   }
   .button-overlay.show {
     translate: 0 0;
@@ -118,6 +118,7 @@ kTemplate.innerHTML = `
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
   }
   .overlay-close {
     padding: 8px;
