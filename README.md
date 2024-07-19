@@ -1,6 +1,6 @@
 # Pic To GB
 
-[demo](systemoflevers.com/image-to-gb)
+[demo](https://systemoflevers.com/image-to-gb)
 
 ## What is this?
 
