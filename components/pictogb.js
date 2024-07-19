@@ -100,7 +100,7 @@ kTemplate.innerHTML = `
     flex-direction: row;
     gap: 1em;
   }
-  #download-overlay {
+  .button-overlay {
     position: absolute;
     background: #e7e7e7;
     translate: 0 -300%;
@@ -111,20 +111,23 @@ kTemplate.innerHTML = `
     flex-direction: column;
     align-items: flex-end;
   }
-  #download-overlay.show {
+  .button-overlay.show {
     translate: 0 0;
   }
-  #other-download-buttons {
+  .overlay-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  #overlay-close {
+  .overlay-close {
     padding: 8px;
     font-family: monospace;
     font-size: 1.5em;
     font-weight: bold;
     cursor: default;
+  }
+  #scaled-download-header {
+    align-self: center;
   }
 </style>
 <div id="container">
@@ -142,11 +145,21 @@ kTemplate.innerHTML = `
       <button id="other-download" alt="other downloads">other downloads</button>
     </div>
   </div>
-  <div id="download-overlay">
-    <div id="overlay-close">X</div>
-    <div id="other-download-buttons">
+  <div id="download-overlay" class="button-overlay">
+    <div class="overlay-close">X</div>
+    <div class="overlay-buttons">
       <button id="tiles-download" alt="download tile sheet">download tile sheet</button>
       <download-rom></download-rom>
+    </div>
+  </div>
+  <div id="scale-image-download-overlay" class="button-overlay">  
+    <div class="overlay-close">X</div>
+    <div id="scaled-download-header">Scaled Images</div>
+    <div class="overlay-buttons">
+      <button id="image-download-1" alt="download image at 1x scale">1x</button>
+      <button id="image-download-2" alt="download image at 2x scale">2x</button>
+      <button id="image-download-4" alt="download image at 4x scale">4x</button>
+      <button id="image-download-8" alt="download image at 4x scale">8x</button>
     </div>
   </div>
 </div>
@@ -194,10 +207,15 @@ export class PicToGB extends HTMLElement {
       this.updateDownload();
     };
 
-    this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.downloadImage());
+    this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.toggleImageDownload());
     this.shadowRoot.getElementById('tiles-download').addEventListener('click', () => this.downloadTileSheet());
     this.shadowRoot.getElementById('other-download').addEventListener('click', () => this.toggleOtherDownload());
-    this.shadowRoot.getElementById('overlay-close').addEventListener('click', () => this.toggleOtherDownload());
+    this.shadowRoot.querySelector('#download-overlay > .overlay-close').addEventListener('click', () => this.toggleOtherDownload());
+    this.shadowRoot.querySelector('#scale-image-download-overlay > .overlay-close').addEventListener('click', () => this.toggleImageDownload());
+    this.shadowRoot.getElementById('image-download-1').addEventListener('click', () => this.downloadScaledImage(1));
+    this.shadowRoot.getElementById('image-download-2').addEventListener('click', () => this.downloadScaledImage(2));
+    this.shadowRoot.getElementById('image-download-4').addEventListener('click', () => this.downloadScaledImage(4));
+    this.shadowRoot.getElementById('image-download-8').addEventListener('click', () => this.downloadScaledImage(8));
   }
 
   pickRomSource() {
@@ -226,6 +244,33 @@ export class PicToGB extends HTMLElement {
     a.click();
   }
 
+  /**
+   * 
+   * @param {number} scale Should be 2, 3, or 4.
+   */
+  downloadScaledImage(scale) {
+    //assert(scale >= 2 && scale <= 4);
+    //assert(scale === Math.trunc(scale));
+    const width = 160 * scale;
+    const height = 144 * scale;
+
+    const scaledCanvas = document.createElement('canvas');
+    scaledCanvas.width = width;
+    scaledCanvas.height = height;
+
+    const scaledCtx = scaledCanvas.getContext('2d');
+    scaledCtx.imageSmoothingEnabled = false;
+    scaledCtx.drawImage(
+      this.pictureRender.drawing.canvas,
+      0, 0, 160, 144, 0, 0, width, height);
+
+    const dataUrl = scaledCanvas.toDataURL();
+    const a = document.createElement('a');
+    a.download = 'scaled_image.png';
+    a.href = dataUrl;
+    a.click();
+  }
+
   downloadTileSheet() {
     const tileCount = this.pictureRender.tileCount;
     const heightInTiles = Math.ceil(tileCount / 16);
@@ -247,7 +292,12 @@ export class PicToGB extends HTMLElement {
   }
   
   toggleOtherDownload() {
+    this.shadowRoot.getElementById('scale-image-download-overlay').classList.remove('show');
     this.shadowRoot.getElementById('download-overlay').classList.toggle('show');
+  }
+  toggleImageDownload() {
+    this.shadowRoot.getElementById('download-overlay').classList.remove('show');
+    this.shadowRoot.getElementById('scale-image-download-overlay').classList.toggle('show');
   }
 }
 customElements.define('pic-to-gb', PicToGB);
