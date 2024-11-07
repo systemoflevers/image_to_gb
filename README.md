@@ -1,6 +1,6 @@
 # Pic To GB
 
-[demo](https://systemoflevers.com/image-to-gb)
+[live](htps://pictogb.com)
 
 ## What is this?
 
