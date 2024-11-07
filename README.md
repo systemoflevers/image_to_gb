@@ -1,6 +1,6 @@
 # Pic To GB
 
-[live](htps://pictogb.com)
+[live](https://pictogb.com)
 
 ## What is this?
 
