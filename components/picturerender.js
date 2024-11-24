@@ -1,7 +1,7 @@
 import { SimpleTwoBitCanvas } from "./simpletwobitcanvas.js";
 import { TileMap, TileSet } from "../modules/tile_collections.js";
 import { imageToCanvas, imageDataToColourIndexedTiles } from "../modules/image_conversion.js";
-import { ditherToColourIndex } from "../modules/dither.js";
+import { ditherToColourIndex, toNearestColourIndex } from "../modules/dither.js";
 import { pixelArrayToTiles } from "../modules/data_conversion.js";
 import { kMeans } from "../modules/kmeans.js";
 import { kGreenColours } from "../modules/colours.js";
@@ -73,6 +73,7 @@ export class PictureRender extends HTMLElement {
       this.rawTiles = imageDataToColourIndexedTiles(
         imageData,
         ditherToColourIndex,
+        //toNearestColourIndex,
         (pixels) => pixelArrayToTiles(pixels, 160, 144).tiles
       );
     }

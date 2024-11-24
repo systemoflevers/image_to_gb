@@ -90,7 +90,7 @@ function ditherToColour(imageData, howMuch = 100, targetColours = kGreenColours)
  * Modifies `imageData` by appling Floyd–Steinberg dithering based on luminance.
  * @param {ImageData} imageData 
  * @param {=number[][]} targetColours
- * @returns An array of pixels where each pixel is an intex into `targetColours`.
+ * @returns An array of pixels where each pixel is an index into `targetColours`.
  */
 function ditherToColourIndex(imageData, targetColours = kGreenColours) {
   const targetLuminances = targetColours.map(([r, g, b]) => computeLuminance(r, g, b));
@@ -111,7 +111,30 @@ function ditherToColourIndex(imageData, targetColours = kGreenColours) {
   return colourIndexes;
 }
 
+/**
+ * Generates an array of nearest colour indexes from `imageData` based on
+ * luminance.
+ * @param {ImageData} imageData 
+ * @param {=number[][]} targetColours
+ * @returns An array of pixels where each pixel is an index into `targetColours`.
+ */
+function toNearestColourIndex(imageData, targetColours = kGreenColours) {
+  const targetLuminances = targetColours.map(([r, g, b]) => computeLuminance(r, g, b));
+  const colourIndexes = new Uint8Array(imageData.width * imageData.height);
+  for (let y = 0; y < imageData.height; ++y) {
+    for (let x = 0; x < imageData.width; ++x) {
+      const i = y * imageData.width + x;
+      const pixel = imageData.data.subarray(i * 4, i * 4 + 3);
+      colourIndexes[i] = findNearestColour(
+        pixel, targetLuminances
+      );
+    }
+  }
+  return colourIndexes;
+}
+
 export {
   ditherToColour,
   ditherToColourIndex,
+  toNearestColourIndex,
 }
