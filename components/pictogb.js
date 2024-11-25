@@ -6,6 +6,15 @@ import { drawCanvas } from "../modules/rendering.js";
 import { TileMap } from "../modules/tile_collections.js";
 import { kGreenColours } from "../modules/colours.js";
 
+/**
+ * 
+ * @param {Uint8Array} data 
+ * @returns {string}
+ */
+function binDataToUrl(data) {
+  return URL.createObjectURL(new Blob([data.buffer], {type: 'application/octet-stream'}));
+}
+
 const kTemplate = document.createElement('template');
 kTemplate.innerHTML = `
 <style>
@@ -151,6 +160,8 @@ kTemplate.innerHTML = `
     <div class="overlay-buttons">
       <button id="tiles-download" alt="download tile sheet">download tile sheet</button>
       <download-rom></download-rom>
+      <button id="tile-map-big-bin-download" alt="download 32x32 tile map binary file">32x32 tile map bin file</button>
+      <button id="tile-set-bin-download" alt="download tile set binary file">tile set bin file</button>
     </div>
   </div>
   <div id="scale-image-download-overlay" class="button-overlay">  
@@ -210,6 +221,8 @@ export class PicToGB extends HTMLElement {
 
     this.shadowRoot.getElementById('img-download').addEventListener('click', () => this.toggleImageDownload());
     this.shadowRoot.getElementById('tiles-download').addEventListener('click', () => this.downloadTileSheet());
+    this.shadowRoot.getElementById('tile-map-big-bin-download').addEventListener('click', () => this.download32x32TileMap());
+    this.shadowRoot.getElementById('tile-set-bin-download').addEventListener('click', () => this.downloadTileSet());
     this.shadowRoot.getElementById('other-download').addEventListener('click', () => this.toggleOtherDownload());
     this.shadowRoot.querySelector('#download-overlay > .overlay-close').addEventListener('click', () => this.toggleOtherDownload());
     this.shadowRoot.querySelector('#scale-image-download-overlay > .overlay-close').addEventListener('click', () => this.toggleImageDownload());
@@ -289,6 +302,30 @@ export class PicToGB extends HTMLElement {
     const a = document.createElement('a');
     a.download = 'tiles.png';
     a.href = dataUrl;
+    a.click();
+  }
+
+  download32x32TileMap() {
+    if (!this.pictureRender.tileMap) return;
+    const bigTileMap = new TileMap(32, 32, this.pictureRender.tileMap.tileSet);
+    for (let r = 0; r < 18; ++r) {
+      for (let c = 0; c < 20; ++c) {
+        bigTileMap.setTile(r * 32 + c, this.pictureRender.tileMap.tileMap[r * 20 + c]);
+      }
+    }
+    const url = binDataToUrl(bigTileMap.toGBData().map);
+    const a = document.createElement('a');
+    a.download = 'tilemap32x32.bin';
+    a.href = url;
+    a.click();
+  }
+
+  downloadTileSet() {
+    if (!this.pictureRender.tileMap) return;
+    const url = binDataToUrl(this.pictureRender.tileMap.toGBData().tiles);
+    const a = document.createElement('a');
+    a.download = 'tileset.bin';
+    a.href = url;
     a.click();
   }
   
